@@ -8,4 +8,5 @@
     android:textSize="22sp"
     android:padding="15dp"
     android:drawableLeft="@drawable/ic_action_search"
-    tools:ignore="RtlHardcoded" />
+    tools:ignore="RtlHardcoded"
+    style="@style/Text"/>

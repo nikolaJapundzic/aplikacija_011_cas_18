@@ -1,16 +1,19 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
         <item name="colorPrimaryDark">#c67100</item>  <!-- status bar. -->
         <item name="colorPrimary">#ffa000</item>
         <item name="colorAccent">#004f04</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="Text" parent="@android:style/Theme.Material">
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor"> #795548</item>
     </style>
-
 </resources>

@@ -31,7 +31,6 @@
             android:name=".activities.activities.SettingsActivity"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".activities.activities.FirstActivity">
 
         </activity>

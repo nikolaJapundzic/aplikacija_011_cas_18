@@ -1,10 +1,17 @@
 package rs.aleph.android.zadatak3.activities.fragments;
 
 import android.app.Fragment;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +42,7 @@ public class DetailFragment extends Fragment {
 
     Button btn_buy;
     Button kamera;
+    private static int NOTIFICATION_ID = 1;
 
 
 
@@ -100,15 +108,10 @@ public class DetailFragment extends Fragment {
         TextView tvCalories = (TextView) getView().findViewById(R.id.tv_Calories);
         tvCalories.setText(getString(R.string.Calories)+ " " +kalorije + " [cal]");
 
-        // Finds "btnBuy" Button and sets "onClickListener" listener
-        btn_buy = (Button) getView().findViewById(R.id.btn_buy);
-        btn_buy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast toast = Toast.makeText(v.getContext(), getString(R.string.dilevery), Toast.LENGTH_LONG);
-                toast.show();
-            }
-        });
+        TextView tv_money = (TextView) getView().findViewById(R.id.tv_money);
+        tv_money.setText("$ "+ String.valueOf(JeloInfoProvider.getFoodPoIDju(position).getCena()));
+
+
         kamera = (Button)getView().findViewById(R.id.button3);
 
         kamera.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +119,15 @@ public class DetailFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(i,REQUEST_IMAGE_CAPTURE);
+            }
+        });
+
+        // Finds "btnBuy" Button and sets "onClickListener" listener
+        FloatingActionButton btnBuy = (FloatingActionButton) getView().findViewById(R.id.floatingActionButton);
+        btnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNotification();
             }
         });
 
@@ -205,18 +217,10 @@ public class DetailFragment extends Fragment {
         TextView tvCalories = (TextView) getView().findViewById(R.id.tv_Calories);
         tvCalories.setText(getString(R.string.Calories)+ " " +kalorije + " [cal]");
 
+        TextView tv_money = (TextView) getView().findViewById(R.id.tv_money);
+        tv_money.setText("$ "+ String.valueOf(JeloInfoProvider.getFoodPoIDju(position).getCena()));
 
 
-
-        // Finds "btnBuy" Button and sets "onClickListener" listener
-        btn_buy = (Button) getView().findViewById(R.id.btn_buy);
-        btn_buy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast toast = Toast.makeText(v.getContext(), getString(R.string.dilevery), Toast.LENGTH_LONG);
-                toast.show();
-            }
-        });
         kamera = (Button)getView().findViewById(R.id.button3);
 
         kamera.setOnClickListener(new View.OnClickListener() {
@@ -226,5 +230,29 @@ public class DetailFragment extends Fragment {
                 startActivityForResult(i,REQUEST_IMAGE_CAPTURE);
             }
         });
+
+        FloatingActionButton btnBuy = (FloatingActionButton) getView().findViewById(R.id.floatingActionButton);
+        btnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNotification();
+            }
+        });
+    }
+
+    private void showNotification() {
+        // Creates notification with the notification builder
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity());
+        Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_action_name);
+        builder.setSmallIcon(R.drawable.ic_action_name);
+        builder.setContentTitle(getActivity().getString(R.string.notification_title));
+        builder.setContentText(getActivity().getString(R.string.notification_text));
+        builder.setLargeIcon(bitmap);
+        builder.setLights(Color.YELLOW, 100, 100);
+        builder.setVibrate(new long[]{300,500,300,500});
+
+        // Shows notification with the notification manager (notification ID is used to update the notification later on)
+        NotificationManager manager = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(NOTIFICATION_ID, builder.build());
     }
 }
